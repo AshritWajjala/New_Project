@@ -1,4 +1,5 @@
 python-dotenv
+setuptools
 scikit-learn
 pandas
 numpy
@@ -6,3 +7,5 @@ matplotlib
 seaborn
 logging
 exception
+
+# -e . 
