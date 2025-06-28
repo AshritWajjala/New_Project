@@ -10,5 +10,6 @@ exception
 pymongo[srv]==3.12
 pymongo
 certifi
+pyyaml
 
 # -e . 
