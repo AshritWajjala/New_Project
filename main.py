@@ -5,7 +5,8 @@ from networksecurity.exception.exception import NetworkSecurityException
 from networksecurity.logging.logger import logging
 from networksecurity.components.data_ingestion import DataIngestion
 from networksecurity.components.data_validation import DataValidation
-from networksecurity.entity.entity_config import TrainingPipelineConfig, DataIngestionConfig, DataValidationConfig
+from networksecurity.components.data_transformation import DataTransformation
+from networksecurity.entity.entity_config import TrainingPipelineConfig, DataIngestionConfig, DataValidationConfig, DataTransformationConfig
 
 if __name__ == '__main__':
     logging.info("PROCEDURE: main initiated.")
@@ -21,7 +22,12 @@ if __name__ == '__main__':
 
         data_validation_artifact = data_validation.initiate_data_validation()
 
-        print(data_ingestion_artifact)
+        data_transformation_config = DataTransformationConfig(training_pipeline_config)
+        data_trasformation = DataTransformation(data_validation_artifact, data_transformation_config)
+
+        data_transformation_artifact = data_trasformation.initiate_data_transformation()
+
+        print(data_transformation_artifact)
         
     except Exception as e:
         raise NetworkSecurityException(e)
