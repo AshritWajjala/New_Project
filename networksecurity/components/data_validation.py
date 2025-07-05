@@ -22,6 +22,11 @@ class DataValidation:
         
     @staticmethod
     def read_data(file_path) -> pd.DataFrame:
+        """
+        Purpose: To read data and return pandas DataFrame.
+        Input:  file_path --> The path of the file
+        Output: DataFrame --> Pandas DataFrame.
+        """
         try:
             return pd.read_csv(file_path)
              
