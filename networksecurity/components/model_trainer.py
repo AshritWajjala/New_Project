@@ -13,6 +13,10 @@ from networksecurity.contants.training_pipeline import MODELS, MODEL_PARAMS
 
 import os
 import mlflow
+import dagshub
+import joblib
+
+dagshub.init(repo_owner='AshritWajjala', repo_name='New_Project', mlflow=True)
 
 class ModelTrainer:
     def __init__(self, model_trainer_config:ModelTrainerConfig, data_transformation_artifact:DataTransformationArtifact):
@@ -23,8 +27,7 @@ class ModelTrainer:
         except Exception as e:
             raise NetworkSecurityException(e)
         
-    def track_mlflow(self, best_model, classification_metrics, X_test):
-        mlflow.set_tracking_uri("mlruns")
+    def track_mlflow(self, best_model, classification_metrics:object) -> None:
         mlflow.set_experiment("network_security_experiment")
 
         with mlflow.start_run():
@@ -32,11 +35,11 @@ class ModelTrainer:
             precision_score = classification_metrics.precision_score
             recall_score = classification_metrics.recall_score
 
-            input_example = X_test[:5]
             mlflow.log_metric("f1_score", f1_score)
             mlflow.log_metric("precision_score", precision_score)
             mlflow.log_metric("recall score", recall_score)
-            mlflow.sklearn.log_model(best_model, artifact_path="model", input_example=input_example)
+            joblib.dump(best_model, "best_model.joblib") # Better than pickle. Used to save model objects
+            mlflow.log_artifact("best_model.joblib") # Dagshub no longer supports sklearn.log_model
             
 
     def training_and_evaluation(self, X_train, y_train, X_test, y_test):
@@ -89,8 +92,8 @@ class ModelTrainer:
             )
 
             # Track MLFLOW
-            self.track_mlflow(best_model=best_model, classification_metrics=train_metric_artifact, X_test=X_test)
-            self.track_mlflow(best_model=best_model, classification_metrics=test_metric_artifact, X_test=X_test)
+            self.track_mlflow(best_model=best_model, classification_metrics=train_metric_artifact)
+            self.track_mlflow(best_model=best_model, classification_metrics=test_metric_artifact)
 
             return model_trainer_artifact
 

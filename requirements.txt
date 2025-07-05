@@ -13,5 +13,7 @@ certifi
 pyyaml
 xgboost
 mlflow
+dagshub
+joblib
 
 # -e . 
