@@ -5,7 +5,6 @@ pandas
 numpy
 matplotlib
 seaborn
-logging
 exception
 pymongo[srv]==3.12
 pymongo
