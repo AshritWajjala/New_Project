@@ -4,7 +4,7 @@ from networksecurity.logging.logger import logging
 
 from sklearn.metrics import f1_score, precision_score, recall_score
 
-def get_classification_score(y_test, y_pred):
+def get_classification_score(y_test, y_pred) -> object:
     """
     This method returns the metrics of the model.
     Input:

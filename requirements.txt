@@ -15,5 +15,8 @@ xgboost
 mlflow
 dagshub
 joblib
+fastapi
+uvicorn
+python-multipart
 
 # -e . 

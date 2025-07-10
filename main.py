@@ -34,9 +34,6 @@ if __name__ == '__main__':
         
         model_trainer_artifact = model_trainer.initiate_model_trainer()
         print(model_trainer_artifact)
-        # a = np.load('Artifacts/06_30_2025_14_50_15/data_transformation/transformed/test.npy')
-        # a = pd.DataFrame(a).head()
-        # print(a)
 
     except Exception as e:
         raise NetworkSecurityException(e)

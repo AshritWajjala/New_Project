@@ -172,7 +172,7 @@ def evaluate_models(X_train, X_test, y_train, y_test, MODELS, MODEL_PARAMS):
             report[model_name] = {
                 "y_train_pred": y_train_pred,
                 "y_test_pred": y_test_pred,
-                "model_object": best_model,  # Add this for use in training_and_evaluation
+                "model_object": best_model, 
                 "metrics": {
                     "train_f1_score": train_classification_metrics.f1_score,
                     "train_precision_score": train_classification_metrics.precision_score,

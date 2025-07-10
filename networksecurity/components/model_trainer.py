@@ -71,6 +71,7 @@ class ModelTrainer:
             os.makedirs(model_dir_path, exist_ok=True)
 
             save_object(file_path=model_file_path, obj=best_model)
+            save_object(file_path="final_model/model.pkl", obj=best_model)
 
             # Artifacts for best model
             train_metric_artifact = ClassificationMetricArtifact(
