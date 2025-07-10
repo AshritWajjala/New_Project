@@ -4,9 +4,18 @@ WORKDIR /app
 
 COPY . /app
 
-RUN apt update -y && apt install -y awscli
+# Install system-level dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    gcc \
+    libffi-dev \
+    python3-dev \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install Python dependencies
+# Upgrade pip and install dependencies
+RUN pip install --upgrade pip
+COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 # Expose port (FastAPI default)
