@@ -22,6 +22,8 @@ TRAIN_FILE_NAME: str = "train.csv"
 TEST_FILE_NAME: str = "test.csv"
 PREPROCESSING_OBJECT_FILE_NAME = "preprocessing.pkl"
 
+TRAINING_BUCKET_NAME: str = "ml-networksecurity"
+
 SCHEMA_FILE_PATH: str = os.path.join("data_schema", "schema.yaml")
 
 MODELS:dict = {
