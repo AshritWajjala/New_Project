@@ -7,7 +7,7 @@ COPY . /app
 RUN apt update -y && apt install -y awscli
 
 # Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
 # Expose port (FastAPI default)
 EXPOSE 8000
