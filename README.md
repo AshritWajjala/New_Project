@@ -108,5 +108,5 @@ The model is trained using the `phisingData.csv` dataset which includes labeled 
 ## 📬 Contact
 
 Created with ❤️ by Ashrit Wajjala  
-For questions or feedback, feel free to reach out on [LinkedIn](https://www.linkedin.com/ashritwajjala)
+For questions or feedback, feel free to reach out on [LinkedIn](https://www.linkedin.com/in/ashritwajjala/)
 
