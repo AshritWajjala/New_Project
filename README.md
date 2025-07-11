@@ -1,6 +1,6 @@
-# 🛡️ Network Security Phishing Detection
+# 🛡️ Network Security - Phishing Detection & Response
 
-A machine learning-powered phishing detection application that processes network-related data and classifies URLs or patterns to detect potential phishing threats.
+This project is a containerized FastAPI application designed to detect phishing websites using machine learning. It automates the entire process — from data ingestion and model training to prediction, visualization, and deployment on AWS using GitHub Actions.
 
 ---
 
@@ -8,105 +8,112 @@ A machine learning-powered phishing detection application that processes network
 
 ```
 .
-├── app.py                      # Flask app entry point
-├── main.py / main2.py         # Scripts to trigger the pipeline
-├── Dockerfile                 # For containerization
-├── requirements.txt           # Python dependencies
-├── .github/workflows/         # GitHub Actions CI/CD workflows
-├── networksecurity/           # Core ML pipeline code
-│   ├── cloud/                 # AWS S3 sync logic
-│   ├── components/            # Data ingestion, transformation, validation, and model training
-│   ├── constants/             # Pipeline-wide constants
-│   ├── entity/                # Entity and artifact definitions
-│   ├── exception/             # Custom exception class
-│   ├── logging/               # Logger utility
-│   ├── pipeline/              # Entry points for training/prediction
-│   ├── utils/                 # Helper functions
-│   └── ml_utils/              # Model evaluation and scoring
-├── templates/                 # HTML template for output table
-├── prediction_output/         # Stores model predictions (e.g., output.csv)
-├── valid_data/                # Stores valid input data (e.g., test.csv)
-├── phisingData.csv            # Original training dataset
-├── best_model.joblib          # Serialized trained model
+├── app.py
+├── main.py
+├── requirements.txt
+├── Dockerfile
+├── networksecurity/
+│   ├── cloud/
+│   ├── components/
+│   ├── constants/
+│   ├── entity/
+│   ├── exception/
+│   ├── logging/
+│   ├── ml_utils/
+│   ├── pipeline/
+│   ├── utils/
+├── prediction_output/
+├── valid_data/
+├── templates/
+├── .github/workflows/main.yml   # CI/CD pipeline
+└── phisingData.csv              # Raw phishing dataset
 ```
 
 ---
 
-## 🚀 How to Run the Project Locally
+## ⚙️ Setup Instructions (Local)
 
-### 🔧 1. Create and activate virtual environment
-```bash
-python3 -m venv venv
-source venv/bin/activate
-```
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/<your-username>/networksecurity.git
+   cd networksecurity
+   ```
 
-### 📦 2. Install requirements
-```bash
-pip install -r requirements.txt
-```
+2. **Create and activate virtual environment**
+   ```bash
+   python -m venv venv
+   source venv/bin/activate    # Linux/Mac
+   venv\Scripts\activate.bat   # Windows
+   ```
 
-### 🧪 3. Run the pipeline
-```bash
-python main.py
-```
+3. **Install dependencies**
+   ```bash
+   pip install --upgrade pip
+   pip install -r requirements.txt
+   ```
 
-### 🌐 4. Launch the Flask app
-```bash
-python app.py
-```
-
-Once running, navigate to: [http://localhost:8000](http://localhost:8000)
-
----
-
-## 🐳 Docker Support
-
-You can also containerize the app using Docker:
-
-```bash
-docker build -t networksecurity .
-docker run -d -p 8000:8000 --name networksecurity networksecurity
-```
+4. **Run the app**
+   ```bash
+   uvicorn app:app --host 0.0.0.0 --port 8000
+   ```
 
 ---
 
-## 🔁 CI/CD – Fully Automated with GitHub Actions
+## 🐳 Docker Usage
 
-This project uses **GitHub Actions** to automatically handle:
+### Build Docker Image
+```bash
+docker build -t networksecurity:latest .
+```
 
-1. **Continuous Integration (CI)**
-   - Triggered when code is pushed to the `main` branch
-   - Runs basic linting and placeholder unit tests
-
-2. **Continuous Delivery (CD)**
-   - **Builds the Docker image** from your codebase
-   - **Pushes the image to AWS Elastic Container Registry (ECR)**
-   - **Deploys the image** on a self-hosted GitHub Actions runner (EC2)
-
-All steps—from code commit to running the updated container—are handled **without manual intervention**.
-
-### 💡 How it works
-
-1. Developer pushes code → triggers GitHub Actions
-2. Workflow:
-   - Cleans up disk space
-   - Logs into AWS
-   - Builds and pushes Docker image
-   - SSHs into EC2 self-hosted runner
-   - Stops old container and runs the new one with latest image
-
-✅ You **don’t need AWS CLI manually on EC2** — it’s handled by the GitHub workflow.
+### Run Docker Container
+```bash
+docker run -d -p 8000:8000 --name networksecurity networksecurity:latest
+```
 
 ---
 
-## 📊 Data Source
+## 🚀 CI/CD with GitHub Actions + AWS ECR + EC2
 
-The model is trained using the `phisingData.csv` dataset which includes labeled examples of phishing indicators across multiple features.
+- CI: Code is linted and unit-tested on every push to `main`.
+- CD: The Docker image is built and pushed to AWS ECR.
+- Deployment: A self-hosted EC2 runner pulls the image and serves the FastAPI app inside a container.
+
+### Secrets Needed
+
+Make sure the following secrets are configured in your GitHub repository:
+
+- `AWS_ACCESS_KEY_ID`
+- `AWS_SECRET_ACCESS_KEY`
+- `AWS_REGION`
+- `AWS_ECR_LOGIN_URI`
+- `ECR_REPOSITORY_NAME`
+
+---
+
+## 📊 MLflow & DagsHub Integration
+
+This project uses **MLflow** for:
+- Experiment tracking
+- Model versioning
+- Comparing evaluation metrics
+
+And **DagsHub** for:
+- Hosting MLflow logs and artifacts remotely
+- Visualizing experiments and model performance
+- Collaborating in a Git-style ML workflow
+
+---
+
+## 📊 Dataset
+
+- **Source**: `phisingData.csv`
+- **Goal**: Predict whether a URL is phishing (`0` or `1`) based on engineered features.
 
 ---
 
 ## 📬 Contact
 
-Created with ❤️ by Ashrit Wajjala  
-For questions or feedback, feel free to reach out on [LinkedIn](https://www.linkedin.com/in/ashritwajjala/)
-
+For issues, suggestions or improvements:  
+**Ashrit Wajjala**  
+[LinkedIn](https://www.linkedin.com/in/ashritwajjala) | [GitHub](https://github.com/AshritWajjala)
